@@ -21,6 +21,10 @@ import webbrowser
 import macros
 import config
 
+from unidecode import unidecode
+
+_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
+
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 ROOT_SRC_PATH = "./site"
 TEMPLATES_PATH = ROOT_SRC_PATH + "/templates"
@@ -55,6 +59,29 @@ RE_METADATA_KEY_VALUE = re.compile(
     re.VERBOSE)
 
 
+def slugify(text, delim=u'-'):
+    """Generates an ASCII-only slug."""
+    result = []
+    for word in _punct_re.split(text.lower()):
+        result.extend(unidecode(word).split())
+    return unicode(delim.join(result))
+
+
+def chunks(lst, number):
+    """
+    A generator, split list `lst` into `number` equal size parts.
+    usage::
+    >>> parts = chunks(range(8),3)
+    >>> parts
+    <generator object chunks at 0xb73bd964>
+    >>> list(parts)
+    [[0, 1, 2], [3, 4, 5], [6, 7]]
+    """
+    lst_len = len(lst)
+    for i in xrange(0, lst_len, number):
+    yield lst[i: i+number]
+
+
 def fileopen(filename, mode):
     return codecs.open(filename, mode, ENCODING)
 
@@ -66,7 +93,13 @@ def open_as_text(filename):
 
 def makedir_if_not_exist(folder):
     if not os.path.exists(folder):
-        os.makedirs(folder)
+        try:
+            os.makedirs(path)
+        except OSError as exc:
+            if exc.errno == errno.EEXIST and os.path.isdir(path):
+                pass
+            else:
+                raise
 
 
 def copy(src, dst):
@@ -213,8 +246,10 @@ def build(serve_site=True):
 def help():
     pass
 
+
 def version():
     pass
+
 
 def main():
     print(banner("wgen - static site generator"))
@@ -223,3 +258,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # print(slugify("C://test/test/anime. Site.md"))
