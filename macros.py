@@ -184,7 +184,7 @@ def __get_pages(path_src, reverse):
                 path_md, filename_md = os.path.split(md_filename_src)
                 filename_md, ext_md = os.path.splitext(filename_md)
                 md_filename_src = os.path.join(
-                    path_md, slugify(unicode(filename_md))) + ext_md
+                    path_md, slugify(filename_md)) + ext_md
 
                 url_page = md_filename_src.replace(
                     ROOT_SRC_PATH, "").replace(
