@@ -11,6 +11,7 @@ try:
 except ImportError:
     import BaseHTTPServer
 import codecs
+import errno
 import fnmatch
 import os
 import re
@@ -23,7 +24,7 @@ import config
 
 from unidecode import unidecode
 
-_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
+_punct_re = re.compile(r'[\t !"#$%&\'()*\-<=>?@^_`{|},.]+')
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 ROOT_SRC_PATH = "./site"
@@ -79,7 +80,7 @@ def chunks(lst, number):
     """
     lst_len = len(lst)
     for i in xrange(0, lst_len, number):
-    yield lst[i: i+number]
+        yield lst[i: i+number]
 
 
 def fileopen(filename, mode):
@@ -94,9 +95,9 @@ def open_as_text(filename):
 def makedir_if_not_exist(folder):
     if not os.path.exists(folder):
         try:
-            os.makedirs(path)
+            os.makedirs(folder)
         except OSError as exc:
-            if exc.errno == errno.EEXIST and os.path.isdir(path):
+            if exc.errno == errno.EEXIST and os.path.isdir(folder):
                 pass
             else:
                 raise
