@@ -24,7 +24,7 @@ import config
 
 from unidecode import unidecode
 
-_punct_re = re.compile(r'[\t !"#$%&\'()*\-<=>?@^_`{|},.]+')
+_punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 ROOT_SRC_PATH = "./site"
