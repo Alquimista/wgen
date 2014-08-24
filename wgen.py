@@ -208,6 +208,10 @@ def build(serve_site=True):
                 continue
             md_text = open_as_text(path_src)
             html_path_dst = path_dst.replace(MARKDOWN_EXTENSION, ".html")
+            path_dst, filename_dst = os.path.split(html_path_dst)
+            filename_dst, ext_dst = os.path.splitext(filename_dst)
+            html_path_dst = os.path.join(
+                path_dst, slugify(unicode(filename_dst))) + ext_dst
             url = html_path_dst.replace(ROOT_DST_PATH, "").replace("\\", "/")
 
             def list_page(**kwargs):

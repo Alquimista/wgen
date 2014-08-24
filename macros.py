@@ -10,7 +10,7 @@ import subprocess
 import config
 from wgen import (
     replace_macros, get_page_metadata, open_as_text, walk, ROOT_SRC_PATH,
-    HOST, PORT, DISQUS_SHORTNAME, GOOGLE_ANALYTICS_ID)
+    HOST, PORT, DISQUS_SHORTNAME, GOOGLE_ANALYTICS_ID, slugify)
 
 
 # Funtion Macro
@@ -180,6 +180,12 @@ def __get_pages(path_src, reverse):
         if os.path.isdir(root_page):
             for md_filename_src in walk(root_page, "*.md"):
                 md_text_page = open_as_text(md_filename_src)
+
+                path_md, filename_md = os.path.split(md_filename_src)
+                filename_md, ext_md = os.path.splitext(filename_md)
+                md_filename_src = os.path.join(
+                    path_md, slugify(unicode(filename_md))) + ext_md
+
                 url_page = md_filename_src.replace(
                     ROOT_SRC_PATH, "").replace(
                     config.MARKDOWN_EXTENSION, ".html").replace(
