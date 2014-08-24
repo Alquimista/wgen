@@ -43,21 +43,21 @@ RE_MACRO = re.compile(
     (.*?)       # macro
     (?:}})      # end delimiter
     """,
-    re.VERBOSE)
+    re.VERBOSE | re.UNICODE)
 RE_METADATA = re.compile(
     r"""
     (?:\<!--)   # start delimiter
     (.*?)       # comment
     (?:--\>)    # end delimiter
     """,
-    re.VERBOSE | re.MULTILINE | re.DOTALL)
+    re.VERBOSE | re.MULTILINE | re.DOTALL | re.UNICODE)
 RE_METADATA_KEY_VALUE = re.compile(
     r"""
     ([A-Za-z]+)    # key
     (?:\:)    # split
     (.*)    # value
     """,
-    re.VERBOSE)
+    re.VERBOSE | re.UNICODE)
 
 
 def slugify(text, delim=u'-'):
@@ -160,6 +160,7 @@ def replace_macros(text, namespace=None):
     def replace(m):
         match = m.group(1)
         tag = m.group(0)
+        # print(match, tag)
         try:
             repl = namespace[match]
         except KeyError:
@@ -169,9 +170,10 @@ def replace_macros(text, namespace=None):
                 repl = tag
         if isinstance(repl, types.FunctionType):
             repl = tag
-        return str(repl)
+        # print(repl)
+        return unicode(repl)
 
-    return re.sub(RE_MACRO, replace, text)
+    return re.sub(RE_MACRO, replace, unicode(text))
 
 
 def banner(text, ch='=', length=78):

@@ -33,7 +33,7 @@ def markdown_to_html(text):
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         shell=True)
-    html = pipe.communicate(input=text.encode())[0].decode()
+    html = pipe.communicate(input=text.encode("utf8"))[0].decode("utf8")
     return html
 
 
