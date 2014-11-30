@@ -5,10 +5,12 @@ import unittest
 import wgen
 import macros
 
+
 class TestMacros(unittest.TestCase):
 
     def test(self):
         self.assertTrue(True)
+
 
 class TestWgen(unittest.TestCase):
 
