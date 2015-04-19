@@ -1,5 +1,5 @@
 init:
-	pip install -r requirements.txt --use-mirrors
+	pip2 install -r requirements.txt --use-mirrors
 
 test:
 	python wgen_test.py

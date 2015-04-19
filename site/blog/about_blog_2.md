@@ -10,5 +10,5 @@ abstract: Descripcion About Blog2
 {{abstract}}  
 {{abstract}}
 
-<h3>{{date_long_string}} | <a href="{{url}}#disqus_thread">Comments</a></h3>
+### {{date_long_string}} | <a href="{{url}}#disqus_thread">Comments</a>
 {{disqus}}

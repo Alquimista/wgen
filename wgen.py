@@ -29,6 +29,7 @@ _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
 ROOT_SRC_PATH = "./site"
 TEMPLATES_PATH = ROOT_SRC_PATH + "/templates"
+SYNTAX_PATH = ROOT_SRC_PATH + "/syntax"
 DEFAULT_TEMPLATE = "%s/%s" % (TEMPLATES_PATH, config.TEMPLATE)
 ROOT_DST_PATH = "./www"
 MARKDOWN_EXTENSION = config.MARKDOWN_EXTENSION
@@ -36,6 +37,7 @@ HOST = "0.0.0.0"
 PORT = 8000
 ENCODING = "utf-8"
 DISQUS_SHORTNAME = config.DISQUS_SHORTNAME
+ROOT_URL = config.ROOT_URL
 GOOGLE_ANALYTICS_ID = config.GOOGLE_ANALYTICS_ID
 RE_MACRO = re.compile(
     r"""
@@ -160,7 +162,6 @@ def replace_macros(text, namespace=None):
     def replace(m):
         match = m.group(1)
         tag = m.group(0)
-        # print(match, tag)
         try:
             repl = namespace[match]
         except KeyError:
@@ -170,7 +171,6 @@ def replace_macros(text, namespace=None):
                 repl = tag
         if isinstance(repl, types.FunctionType):
             repl = tag
-        # print(repl)
         return unicode(repl)
 
     return re.sub(RE_MACRO, replace, unicode(text))
@@ -203,11 +203,15 @@ def build(serve_site=True):
         os.makedirs(ROOT_DST_PATH)
     for path_src in walk_site():
         path_dst = path_src.replace("site", "www")
+        root, filename = os.path.split(path_src)
+        root = root.replace("\\", "/")
+        if root == TEMPLATES_PATH:
+            continue
         if not path_src.endswith(MARKDOWN_EXTENSION):
+            if (root == SYNTAX_PATH and not filename == config.SYNTAX_COLOR):
+                continue
             copy(path_src, path_dst)
         else:
-            if os.path.split(path_src) == TEMPLATES_PATH:
-                continue
             md_text = open_as_text(path_src)
             html_path_dst = path_dst.replace(MARKDOWN_EXTENSION, ".html")
             path_dst, filename_dst = os.path.split(html_path_dst)
@@ -265,4 +269,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    # print(slugify("C://test/test/anime. Site.md"))

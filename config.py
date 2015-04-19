@@ -3,10 +3,10 @@
 
 BLOG_TITLE = "wgen"
 BLOG_SUBTITLE = "static site genetaror"
-STYLE = "style"
+STYLE = "style.css"
 TEMPLATE = "default.html"
 MARKDOWN_EXTENSION = ".md"
-SYNTAX_COLOR = "tomorrow-night"
-DISQUS_SHORTNAME = ""
+SYNTAX_COLOR = "tomorrow-night.css"
+DISQUS_SHORTNAME = "alquimista"
 GOOGLE_ANALYTICS_ID = ""
-
+ROOT_URL = "http://alquimista.github.io"

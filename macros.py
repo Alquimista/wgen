@@ -10,7 +10,7 @@ import subprocess
 import config
 from wgen import (
     replace_macros, get_page_metadata, open_as_text, walk, ROOT_SRC_PATH,
-    HOST, PORT, DISQUS_SHORTNAME, GOOGLE_ANALYTICS_ID, slugify)
+    HOST, PORT, DISQUS_SHORTNAME, GOOGLE_ANALYTICS_ID, ROOT_URL, slugify)
 
 
 # Funtion Macro
@@ -249,9 +249,12 @@ def google_analytics(id=GOOGLE_ANALYTICS_ID):
     </script>""" %id
 
 
-def __disqus(shortname=DISQUS_SHORTNAME, url="", title=""):
-    host = HOST.replace("0.0.0.0", "127.0.0.1")
-    url = "http://" + host + ":" + str(PORT) + url
+def __disqus(shortname=DISQUS_SHORTNAME, url="", host=ROOT_URL, title=""):
+    if not host:
+        host = HOST.replace("0.0.0.0", "127.0.0.1")
+        url = "http://" + host + ":" + str(PORT) + url
+    else:
+        url = host + url
     return """<div id="disqus_thread"></div>
     <script type="text/javascript">
         /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
@@ -293,6 +296,7 @@ blog_subtitle = config.BLOG_SUBTITLE
 style = config.STYLE
 menu = menu()
 syntax_color = config.SYNTAX_COLOR
+root_url = config.ROOT_URL
 
 # Macros
 email = js_obfuscated_mailto
