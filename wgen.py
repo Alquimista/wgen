@@ -44,6 +44,7 @@ ENCODING = "utf-8"
 DISQUS_SHORTNAME = config.DISQUS_SHORTNAME
 ROOT_URL = config.ROOT_URL
 GOOGLE_ANALYTICS_ID = config.GOOGLE_ANALYTICS_ID
+INDEX_NAME = "Home"
 RE_MACRO = re.compile(
     r"""
     (?:{{)      # start delimiter

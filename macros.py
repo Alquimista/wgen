@@ -15,7 +15,7 @@ from wgen import (
 
 # Funtion Macro
 def menu():
-    menu = '<li><a href="/index.html"></span> home</a></li>\n'
+    menu = '<li><a href="/index.html"></span> %s</a></li>\n' % config.INDEX_NAME
     for filewww in os.listdir(ROOT_SRC_PATH):
         if filewww.endswith(config.MARKDOWN_EXTENSION):
             path = os.path.basename(filewww).replace(
