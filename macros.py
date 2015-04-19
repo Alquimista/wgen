@@ -82,13 +82,13 @@ def youtube(id, width=560, height=315, related=True, ssl=False, cookie=True):
         embed_youtube_url = protocol + "www.youtube-nocookie.com/embed/"
     options = 'width="%d" height="%d" src="%s%s%s"' % (
         width, height, embed_youtube_url, id, related)
-    return '<iframe %s frameborder="0" allowfullscreen></iframe>' %options
+    return '<iframe %s frameborder="0" allowfullscreen></iframe>' % options
 
 
 def vimeo(id, width=560, height=315, autoplay=False,
           avatar=False, title=True, author=False, color=None):
     if color:
-        color = "color=%s" %color.replace("#", "")
+        color = "color=%s" % color.replace("#", "")
     else:
         color = ""
     if not avatar:
@@ -107,10 +107,10 @@ def vimeo(id, width=560, height=315, autoplay=False,
         autoplay = "?autoplay=1"
     else:
         autoplay = "?"
-    url = "http://player.vimeo.com/video/%d%s%s%s%s%s" %(
+    url = "http://player.vimeo.com/video/%d%s%s%s%s%s" % (
         id, autoplay, avatar, title, author, color)
-    options = 'width="%d" height="%d" src="%s"' %(width, height, url)
-    return '<iframe %s frameborder="0" allowfullscreen></iframe>' %options
+    options = 'width="%d" height="%d" src="%s"' % (width, height, url)
+    return '<iframe %s frameborder="0" allowfullscreen></iframe>' % options
 
 
 try:
@@ -121,6 +121,7 @@ except AttributeError:
     rot_13_trans = str.maketrans(
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
         "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm")
+
 
 def rot_13_encrypt(line):
     """Rotate 13 encryption."""
@@ -146,8 +147,8 @@ def js_obfuscated_text(text):
                 return String.fromCharCode(
                 (c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
             </script>""" % (
-            "Javascript must be enabled to see this e-mail address",
-            rot_13_encrypt(text))
+        "Javascript must be enabled to see this e-mail address",
+        rot_13_encrypt(text))
 
 
 def js_obfuscated_mailto(email, displayname=None):
@@ -166,7 +167,7 @@ def __reading_time(text):
     minutes = int(round(words / words_per_minute, 0))
     minutes_label = "minute" if minutes == 1 else "minutes"
     if minutes > 0:
-        return "about %d %s" %(minutes, minutes_label)
+        return "about %d %s" % (minutes, minutes_label)
     else:
         "less than 1 minute"
 
@@ -200,7 +201,7 @@ def __get_pages(path_src, reverse):
                 if namespace_page.get("date"):
                     date_string = date_to_string(namespace_page["date"])
                     date_long_string = date_to_long_string(
-                                namespace_page["date"])
+                        namespace_page["date"])
                     namespace_page["date_string"] = date_string
                     namespace_page["date_long_string"] = date_long_string
                 html_content = markdown_to_html(
@@ -211,8 +212,8 @@ def __get_pages(path_src, reverse):
                     "url": url_page}
                 pages.append(page_content)
     return sorted(pages,
-        key=lambda k: k['namespace']['date'],
-        reverse=reverse)
+                  key=lambda k: k['namespace']['date'],
+                  reverse=reverse)
 
 
 def __list_page(path, max=None, content=False, reverse=True):
@@ -225,10 +226,10 @@ def __list_page(path, max=None, content=False, reverse=True):
         else:
             title = '<a href="%s">%s</a> - ' % (
                 page["url"], page["namespace"]["title"])
-            date = "<strong>%s</strong> - " %(
+            date = "<strong>%s</strong> - " % (
                 date_to_long_string(page["namespace"]["date"]))
             abstract = page["namespace"]["abstract"]
-            comments_count = '<a href="%s#disqus_thread">Comments</a>' %(
+            comments_count = '<a href="%s#disqus_thread">Comments</a>' % (
                 page["url"])
             list_page += "%s%s%s %s   \n" % (
                 title, date, abstract, comments_count)
@@ -246,7 +247,7 @@ def google_analytics(id=GOOGLE_ANALYTICS_ID):
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-    </script>""" %id
+    </script>""" % id
 
 
 def __disqus(shortname=DISQUS_SHORTNAME, url="", host=ROOT_URL, title=""):
@@ -270,7 +271,7 @@ def __disqus(shortname=DISQUS_SHORTNAME, url="", host=ROOT_URL, title=""):
             (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
         })();
     </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>""" %(
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>""" % (
         shortname, url, url, title)
 
 
@@ -286,8 +287,8 @@ def disqus_comment_count():
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
       }());
     </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>""" %(
-    DISQUS_SHORTNAME)
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>""" % (
+        DISQUS_SHORTNAME)
 
 
 # String Macro

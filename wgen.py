@@ -24,6 +24,11 @@ import config
 
 from unidecode import unidecode
 
+try:
+    WindowsError
+except NameError:
+    WindowsError = Exception
+
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 
 ROOT_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -67,7 +72,7 @@ def slugify(text, delim=u'-'):
     result = []
     for word in _punct_re.split(text.lower()):
         result.extend(unidecode(word).split())
-    return unicode(delim.join(result))
+    return delim.join(result)
 
 
 def chunks(lst, number):
@@ -82,7 +87,7 @@ def chunks(lst, number):
     """
     lst_len = len(lst)
     for i in xrange(0, lst_len, number):
-        yield lst[i: i+number]
+        yield lst[i: i + number]
 
 
 def fileopen(filename, mode):
@@ -119,8 +124,8 @@ def text_save_as(text, filename):
 def walk(folder, pattern="*"):
     for root, dirnames, filenames in os.walk(folder):
         for filename in fnmatch.filter(filenames, pattern):
-                if not filename.startswith((".", "_")):
-                    yield os.path.join(root, filename)
+            if not filename.startswith((".", "_")):
+                yield os.path.join(root, filename)
 
 
 def walk_site(pattern="*"):
@@ -173,7 +178,7 @@ def replace_macros(text, namespace=None):
             repl = tag
         return unicode(repl)
 
-    return re.sub(RE_MACRO, replace, unicode(text))
+    return re.sub(RE_MACRO, replace, text)
 
 
 def banner(text, ch='=', length=78):
@@ -199,7 +204,7 @@ def build(serve_site=True):
     gendate = macros.__gendatetime()
     try:
         shutil.rmtree(ROOT_DST_PATH)
-    except WindowsError:
+    except (WindowsError, OSError) as e:
         os.makedirs(ROOT_DST_PATH)
     for path_src in walk_site():
         path_dst = path_src.replace("site", "www")
