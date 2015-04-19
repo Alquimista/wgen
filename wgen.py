@@ -176,7 +176,7 @@ def replace_macros(text, namespace=None):
                 repl = tag
         if isinstance(repl, types.FunctionType):
             repl = tag
-        return unicode(repl)
+        return repl
 
     return re.sub(RE_MACRO, replace, text)
 
